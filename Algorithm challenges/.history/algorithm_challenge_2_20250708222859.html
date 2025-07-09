@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Substring Finder</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+  <style>
+    button {
+      margin: 10px 0;
+      padding: 8px;
+      font-size: 16px;
+    }
+    #result {
+      margin-top: 20px;
+      font-weight: bold;
+      color: #333;
+    }
+    .error {
+      color: red;
+    }
+  </style>
+</head>
+<body class="container-fluid" style="padding:48px">
+  <h2 class="pb-3">Find Substrings with N-1 Unique Characters</h2>
+
+  <div class="row g-3 align-items-end mb-4">
+    <div class="col-md-2" style="width: 360px">
+        <label for="inputString" class="form-label small">Enter a string:</label>
+        <input type="text" id="inputString" class="form-control" placeholder="e.g. AbAc" style="width: 320px;"/><br />
+    </div>
+    <div class="col-md-2" style="width: 360px">
+        <label for="inputNumber" class="form-label small">Enter a number:</label><br />
+        <input type="number" id="inputNumber" min="2" step="1" class="form-control" placeholder="e.g. 3" style="width: 320px;"/><br />
+    </div>
+    <button class="btn btn-primary" style="width:320px; margin: 8px" onclick="handleFindSubstrings()">Find Substrings</button>
+
+
+  </div>
+
+
+  <div id="result"></div>
+
+  <!-- <button onclick="checkUniqueNoDS(prompt('Enter a string to check'))">
+  Check Unique Characters
+   </button> -->
+
+  <script>
+    // Takes original string and n, returns substrings preserving original case,
+    // but compares lowercase substrings for unique chars count
+    function findSubstringsWithNUniqueChars(origStr, n) {
+      const result = [];
+      const lowerStr = origStr.toLowerCase();
+
+      for (let i = 0; i <= origStr.length - n; i++) {
+        const substrOrig = origStr.substring(i, i + n);
+        const substrLower = lowerStr.substring(i, i + n);
+        const uniqueChars = new Set(substrLower);
+        if (uniqueChars.size === n - 1) {
+          result.push(substrOrig);
+        }
+      }
+
+      return result;
+    }
+
+    function checkUniqueNoDS(str) {
+        str = str.toLowerCase().replace(/\s+/g, '');
+        console.log("Normalized string:", str);
+
+        for (let i = 0; i < str.length; i++) {
+            console.log(`Checking character '${str[i]}' at index ${i}`);
+            
+            for (let j = 0; j < str.length; j++) {
+                if (i !== j) {
+                    console.log(`  Comparing with '${str[j]}' at index ${j}`);
+                    
+                    if (str[i] === str[j]) {
+                        console.log(`  ❌ Duplicate found: '${str[i]}' at indices ${i} and ${j}`);
+                        return false;
+                    }
+                }
+            }
+        }
+
+    console.log("✅ All characters are unique.");
+    return true;
+}
+
+    checkUniqueNoDS("abc def");      // true
+    checkUniqueNoDS("abac def");     // false
+    checkUniqueNoDS("hello world"); 
+
+
+
+    function handleFindSubstrings() {
+      const origStr = document.getElementById("inputString").value.trim();
+      const numInput = document.getElementById("inputNumber").value.trim();
+      const resultDiv = document.getElementById("result");
+      resultDiv.classList.remove("error");
+      resultDiv.innerHTML = "";
+
+      if (!origStr) {
+        resultDiv.classList.add("error");
+        resultDiv.innerHTML = "Please enter a non-empty string.";
+        return;
+      }
+
+      const n = Number(numInput);
+
+      if (!Number.isInteger(n) || n <= 1) {
+        resultDiv.classList.add("error");
+        resultDiv.innerHTML = "Please enter a valid whole number greater than 1.";
+        return;
+      }
+
+      if (n > origStr.length) {
+        resultDiv.classList.add("error");
+        resultDiv.innerHTML = "Number must not exceed the string length.";
+        return;
+      }
+
+      const output = findSubstringsWithNUniqueChars(origStr, n);
+
+      if (output.length === 0) {
+        resultDiv.innerHTML = "No matching substrings found.";
+      } else {
+        resultDiv.innerHTML = `Found ${output.length} matching substring(s):<br>${output.join(", ")}`;
+      }
+    }
+  </script>
+</body>
+</html>

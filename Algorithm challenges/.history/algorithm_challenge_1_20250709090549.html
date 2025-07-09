@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Unique Characters Checker</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body style="padding: 32px;">
+  <h3>Verify Unique Characters</h3>
+
+  <div style="max-width: 320px;">
+    <label for="textInput">Enter a string:</label>
+    <input type="text" id="textInput" class="form-control">
+    
+    <button onclick="checkStringWithDS()" class="btn btn-dark mt-2 w-100">Check string with data structure</button>
+    <button onclick="checkStringWithoutDS()" class="btn btn-secondary mt-2 w-100">Check string without data structure</button>
+
+    <div id="result" class="mt-3 fw-bold"></div>
+  </div>
+
+  <script>
+    // This function checks if all characters in a string are unique using a data structure (Set).
+    function checkStringWithDS() {
+      let text = document.getElementById("textInput").value;
+      if (text.trim() === "") {
+        document.getElementById("result").textContent = "Enter some text.";
+        document.getElementById("result").style.color = "red";
+        return;
+      }
+
+      // Normalize the text: convert to lowercase and remove spaces
+      // text = text.toLowerCase().split(" ").join("");
+
+      let chars = new Set();
+      for (let i = 0; i < text.length; i++) {
+        if (chars.has(text[i])) {
+          document.getElementById("result").textContent = "Duplicates found (using data structure).";
+          document.getElementById("result").style.color = "red";
+          return;
+        }
+        chars.add(text[i]);
+      }
+
+      document.getElementById("result").textContent = "All characters are unique (using data structure).";
+      document.getElementById("result").style.color = "green";
+    }
+
+    function checkStringWithoutDS() {
+      let text = document.getElementById("textInput").value;
+      if (text.trim() === "") {
+        document.getElementById("result").textContent = "Enter some text.";
+        document.getElementById("result").style.color = "red";
+        return;
+      }
+
+      text = text.toLowerCase().replace(/\s/g, "");
+
+      for (let i = 0; i < text.length; i++) {
+        for (let j = i + 1; j < text.length; j++) {
+          if (text[i] === text[j]) {
+            document.getElementById("result").textContent = "Duplicates found (not using data structure).";
+            document.getElementById("result").style.color = "red";
+            return;
+          }
+        }
+      }
+
+      document.getElementById("result").textContent = "All characters are unique (not using data structure).";
+      document.getElementById("result").style.color = "green";
+    }
+  </script>
+</body>
+</html>

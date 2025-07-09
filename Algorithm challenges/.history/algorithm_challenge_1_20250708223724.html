@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Unique Character Checker</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+  <style>
+    button {
+      margin: 10px 0;
+      padding: 8px;
+      font-size: 16px;
+    }
+    #result {
+      margin-top: 15px;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body class="container-fluid" style="padding:48px">
+  <h2 class="pb-3">Check for Unique Characters</h2>
+
+  <div class="row g-3 align-items-end mb-4">
+    <div class="col-md-2" style="width: 360px">
+      <label for="textInput" class="form-label small">Enter a string:</label>
+      <input type="text" id="textInput" placeholder="Enter your text here" />
+    </div>
+    <div class="col-md-2" style="width: 360px">
+      <label for="textInput" class="form-label small">Enter a string:</label>
+      <input type="text" id="textInput" placeholder="Enter your text here" />
+    </div>
+    <button onclick="checkUnique()">Check</button>
+
+    <div id="result"></div>
+  </div>
+
+
+
+  <script>
+    function hasUniqueCharacters(str) {
+      const charSet = new Set();
+      const normalizedStr = str.toLowerCase().replace(/\s+/g, '');
+
+      for (let char of normalizedStr) {
+        if (charSet.has(char)) {
+          return false;
+        }
+        charSet.add(char);
+      }
+
+      return true;
+    }
+
+    function checkUnique() {
+      const input = document.getElementById('textInput').value;
+      const resultDiv = document.getElementById('result');
+
+      if (input.trim() === "") {
+        resultDiv.textContent = "Please enter some text.";
+        resultDiv.style.color = "red";
+        return;
+      }
+
+      const isUnique = hasUniqueCharacters(input);
+
+      if (isUnique) {
+        resultDiv.textContent = "✅ All characters are unique!";
+        resultDiv.style.color = "green";
+      } else {
+        resultDiv.textContent = "❌ Duplicate characters found.";
+        resultDiv.style.color = "red";
+      }
+    }
+  </script>
+
+</body>
+</html>

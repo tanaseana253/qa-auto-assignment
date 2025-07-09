@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Unique Character Checker</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+    }
+    input, button {
+      padding: 10px;
+      font-size: 1rem;
+    }
+    #result {
+      margin-top: 15px;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+
+  <h2>Check for Unique Characters</h2>
+
+  <input type="text" id="textInput" placeholder="Enter your text here" />
+  <button onclick="checkUnique()">Check</button>
+
+  <div id="result"></div>
+
+  <script>
+    function hasUniqueCharacters(str) {
+      const charSet = new Set();
+      const normalizedStr = str.toLowerCase().replace(/\s+/g, '');
+
+      for (let char of normalizedStr) {
+        if (charSet.has(char)) {
+          return false;
+        }
+        charSet.add(char);
+      }
+
+      return true;
+    }
+
+    function checkUnique() {
+      const input = document.getElementById('textInput').value;
+      const resultDiv = document.getElementById('result');
+
+      if (input.trim() === "") {
+        resultDiv.textContent = "Please enter some text.";
+        resultDiv.style.color = "red";
+        return;
+      }
+
+      const isUnique = hasUniqueCharacters(input);
+
+      if (isUnique) {
+        resultDiv.textContent = "✅ All characters are unique!";
+        resultDiv.style.color = "green";
+      } else {
+        resultDiv.textContent = "❌ Duplicate characters found.";
+        resultDiv.style.color = "red";
+      }
+    }
+  </script>
+
+</body>
+</html>

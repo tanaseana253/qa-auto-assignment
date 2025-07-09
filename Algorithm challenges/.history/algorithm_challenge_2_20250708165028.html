@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Substring Finder</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 30px;
+    }
+    input,
+    button {
+      margin: 10px 0;
+      padding: 8px;
+      font-size: 16px;
+    }
+    #result {
+      margin-top: 20px;
+      font-weight: bold;
+      color: #333;
+    }
+    .error {
+      color: red;
+    }
+  </style>
+</head>
+<body>
+  <h1>Find Substrings with N-1 Unique Characters</h1>
+
+  <label for="inputString">Enter a string:</label><br />
+  <input type="text" id="inputString" placeholder="e.g. AbAc" /><br />
+
+  <label for="inputNumber">Enter a number:</label><br />
+  <input type="number" id="inputNumber" min="2" step="1" placeholder="e.g. 3" /><br />
+
+  <button onclick="handleFindSubstrings()">Find Substrings</button>
+
+  <div id="result"></div>
+
+  <script>
+    // Takes original string and n, returns substrings preserving original case,
+    // but compares lowercase substrings for unique chars count
+    function findSubstringsWithNUniqueChars(origStr, n) {
+      const result = [];
+      const lowerStr = origStr.toLowerCase();
+
+      for (let i = 0; i <= origStr.length - n; i++) {
+        const substrOrig = origStr.substring(i, i + n);
+        const substrLower = lowerStr.substring(i, i + n);
+        const uniqueChars = new Set(substrLower);
+        if (uniqueChars.size === n - 1) {
+          result.push(substrOrig);
+        }
+      }
+
+      return result;
+    }
+
+    function checkUniqueNoDS(str) {
+        str = str.toLowerCase().replace(/\s+/g, '');
+        console.log("Normalized string:", str);
+
+        for (let i = 0; i < str.length; i++) {
+            console.log(`Checking character '${str[i]}' at index ${i}`);
+
+            for (let j = 0; j < str.length; j++) {
+            if (i !== j && str[i] === str[j]) {
+                console.log(`  Comparing with '${str[j]}' at index ${j}`);
+                return false;
+            }
+            }
+        }
+        return true;
+    }
+
+    function handleFindSubstrings() {
+      const origStr = document.getElementById("inputString").value.trim();
+      const numInput = document.getElementById("inputNumber").value.trim();
+      const resultDiv = document.getElementById("result");
+      resultDiv.classList.remove("error");
+      resultDiv.innerHTML = "";
+
+      if (!origStr) {
+        resultDiv.classList.add("error");
+        resultDiv.innerHTML = "Please enter a non-empty string.";
+        return;
+      }
+
+      const n = Number(numInput);
+
+      if (!Number.isInteger(n) || n <= 1) {
+        resultDiv.classList.add("error");
+        resultDiv.innerHTML = "Please enter a valid whole number greater than 1.";
+        return;
+      }
+
+      if (n > origStr.length) {
+        resultDiv.classList.add("error");
+        resultDiv.innerHTML = "Number must not exceed the string length.";
+        return;
+      }
+
+      const output = findSubstringsWithNUniqueChars(origStr, n);
+
+      if (output.length === 0) {
+        resultDiv.innerHTML = "No matching substrings found.";
+      } else {
+        resultDiv.innerHTML = `Found ${output.length} matching substring(s):<br>${output.join(", ")}`;
+      }
+    }
+  </script>
+</body>
+</html>
