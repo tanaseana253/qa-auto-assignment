@@ -1,0 +1,19 @@
+# Node modules
+node_modules/
+
+# SQLite files
+*.sqlite3
+*.db
+
+# Logs
+logs/
+*.log
+
+# Environment secrets
+.env
+
+# System files
+.DS_Store
+
+# VS Code settings (optional)
+.vscode/
